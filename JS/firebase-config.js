@@ -1,5 +1,5 @@
- // Paste your Firebase web app config here (Firebase console > Project settings > Your apps).
-// Use the SAME project as the ACIM Android app so both read and write the same data.
+// Paste your Firebase web app config below (Project settings > Your apps > Config).
+// Use the SAME project as the ACIM Android app.
 // These values identify the project; they are not secrets. Security comes from the rules.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
