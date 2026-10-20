@@ -1,10 +1,9 @@
-// Shared admin helpers: role check, sign-out, formatting.
 import { auth, db, isConfigured } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 export { db };
 
-let loggingOut = false; // stops the "not signed in" redirect from overriding the logout redirect
+let loggingOut = false;
 
 export const esc = (v) =>
   String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
