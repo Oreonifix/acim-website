@@ -1,0 +1,90 @@
+/* Dashboard styles. Same tokens as css/style.css so the admin area matches the website.
+   Standalone on purpose: do not link style.css on dashboard pages (class names like .btn, .grid, .card would clash). */
+:root{
+  --ink:#17161a;--char:#232126;--gold:#c9a85c;--gold-d:#a98a3f;--ivory:#faf6ee;--beige:#f0e9da;
+  --text:#2a282d;--mut:#6b665c;--r:14px;
+  --muted:var(--mut);--line:rgba(169,138,63,.35);
+}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--ivory);color:var(--text);font:400 1rem/1.65 "Hanken Grotesk",system-ui,sans-serif}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;line-height:1.15}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.side{background:var(--ink);color:#f3eee3;border-right:1px solid rgba(201,168,92,.35);padding:22px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+.side .brand{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.9rem;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+.side .sub{color:#b9b3a6;font-size:.85rem;margin-bottom:18px}
+.side a,.side .soon{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;text-decoration:none}
+.side a:hover{background:rgba(201,168,92,.14)}
+.side a.active{background:rgba(201,168,92,.2);color:var(--gold)}
+.side .soon{color:#8f897b;cursor:default}
+.side .soon em{font-style:normal;font-size:.72rem;border:1px solid rgba(201,168,92,.35);border-radius:999px;padding:1px 8px;margin-left:8px}
+.side .spacer{flex:1}
+
+.main{padding:28px 32px 64px;min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.top h1{font-size:clamp(1.9rem,4vw,2.6rem)}
+.who{display:flex;align-items:center;gap:12px;color:var(--mut);font-size:.9rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 22px;border-radius:999px;font:inherit;font-weight:600;border:1px solid var(--gold-d);background:transparent;color:var(--text);cursor:pointer;transition:background .2s,color .2s}
+.btn:hover{background:var(--ink);color:var(--gold);border-color:var(--ink)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.btn.gold:hover{background:var(--gold-d);border-color:var(--gold-d);color:#fff}
+.btn:disabled{opacity:.6;cursor:wait}
+
+.notice{background:#fbe9e7;color:#8a1c10;border:1px solid #e8b4ac;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.95rem;word-break:break-word}
+.notice a{color:#8a1c10;text-decoration:underline}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;box-shadow:0 6px 18px rgba(60,45,10,.1)}
+.stat .k{color:var(--mut);font-size:.9rem}
+.stat .v{font-family:"Roboto",system-ui,sans-serif;font-variant-numeric:tabular-nums;font-size:2.6rem;font-weight:700;color:var(--gold-d);line-height:1.1;margin-top:4px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;min-width:0;box-shadow:0 6px 18px rgba(60,45,10,.1)}
+.card h2{font-size:1.5rem;margin-bottom:8px;color:var(--text)}
+.list{list-style:none;padding:0}
+.list li{padding:12px 0;border-top:1px solid rgba(0,0,0,.08)}
+.list li:first-child{border-top:0}
+.list .t{font-weight:600}
+.list .m{color:var(--mut);font-size:.9rem;word-break:break-word}
+.empty{color:var(--mut);padding:6px 0}
+.stars{color:var(--gold-d);letter-spacing:1px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0 10px;font-size:.78rem;color:var(--mut);margin-left:6px;font-weight:400}
+
+.tools{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.tools input{flex:1;min-width:220px;min-height:48px;padding:0 14px;border:1px solid #b9ae93;border-radius:10px;font:inherit;background:#fff;color:var(--text)}
+.tablewrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow-x:auto;box-shadow:0 6px 18px rgba(60,45,10,.1)}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid rgba(0,0,0,.08);vertical-align:middle}
+th{background:var(--beige);color:var(--mut);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--ivory)}
+.more{text-align:center;margin-top:18px}
+.tools select{min-height:48px;padding:0 12px;border:1px solid #b9ae93;border-radius:10px;font:inherit;background:#fff;color:var(--text)}
+.pill{display:inline-block;min-width:44px;text-align:center;border-radius:999px;padding:1px 12px;font-size:.85rem;font-weight:600;margin-right:6px}
+.pill.yes{background:#e3f1e4;color:#1f5a2b;border:1px solid #b5d7b9}
+.pill.no{background:#f1ece0;color:var(--mut);border:1px solid var(--line)}
+dialog.confirm{width:min(400px,92vw)}
+dialog.confirm .dbody{padding:24px 24px 22px}
+dialog.confirm h2{font-size:1.7rem;margin-bottom:6px}
+dialog.confirm p{color:var(--mut)}
+dialog.confirm .actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:22px}
+
+dialog{margin:auto;background:var(--ivory);color:var(--text);border:1px solid var(--gold);border-radius:var(--r);width:min(720px,92vw);max-height:86vh;padding:0;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+dialog::backdrop{background:rgba(23,22,26,.7)}
+.dhead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--ivory)}
+.dhead h2{font-size:1.6rem}
+.dbody{padding:6px 20px 22px;overflow:auto;max-height:70vh}
+.dbody h3{font-size:1.3rem;color:var(--gold-d);margin:18px 0 4px}
+.loading{color:var(--mut)}
+
+@media(max-width:760px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:10px 12px}
+  .side .sub,.side .spacer{display:none}
+  .side .brand{margin:0 10px 0 0;font-size:1.5rem}
+  .main{padding:20px 16px 56px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}

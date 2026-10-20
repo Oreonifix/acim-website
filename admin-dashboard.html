@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Dashboard | ACIM Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Hanken+Grotesk:wght@400;500;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <div class="brand">ACIM</div>
+    <div class="sub">Admin dashboard</div>
+    <a class="active" href="admin-dashboard.html">Overview</a>
+    <a href="admin-users.html">Users</a>
+    <a href="admin-feedback.html">Feedback</a>
+  </nav>
+
+  <main class="main">
+    <div class="top">
+      <h1>Overview</h1>
+      <div class="who"><span id="who"></span><button class="btn" data-logout>Log out</button></div>
+    </div>
+
+    <div id="errTotals"></div>
+    <section class="stats">
+      <div class="stat"><div class="k">Users</div><div class="v" id="sUsers">…</div></div>
+      <div class="stat"><div class="k">Users who created a design</div><div class="v" id="sDesignUsers">…</div></div>
+      <div class="stat"><div class="k">Feedback</div><div class="v" id="sFeedback">…</div></div>
+      <div class="stat"><div class="k">Average rating</div><div class="v" id="sRating">…</div></div>
+    </section>
+
+    <section class="grid">
+      <div class="card"><h2>Latest users</h2><div id="latestUsers" class="loading">Loading…</div></div>
+      <div class="card"><h2>Latest feedback</h2><div id="latestFeedback" class="loading">Loading…</div></div>
+    </section>
+  </main>
+</div>
+<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

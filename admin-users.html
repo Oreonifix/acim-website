@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Users | ACIM Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <div class="brand">ACIM</div>
+    <div class="sub">Admin dashboard</div>
+    <a href="admin-dashboard.html">Overview</a>
+    <a class="active" href="admin-users.html">Users</a>
+    <a href="admin-feedback.html">Feedback</a>
+  </nav>
+
+  <main class="main">
+    <div class="top">
+      <h1>Users</h1>
+      <div class="who"><span id="who"></span><button class="btn" data-logout>Log out</button></div>
+    </div>
+
+    <div id="err"></div>
+    <div class="tools">
+      <input id="search" type="search" placeholder="Search loaded users by name, email or ID">
+      <select id="filter" aria-label="Filter by design status">
+        <option value="all">All users</option>
+        <option value="yes">Created a design</option>
+        <option value="no">No design yet</option>
+      </select>
+      <span id="count" class="who"></span>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Created a design</th><th></th></tr></thead>
+        <tbody id="tbody"><tr><td colspan="5" class="loading">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="more" id="more"><button class="btn gold" id="moreBtn">Load more</button></div>
+  </main>
+</div>
+
+<dialog id="dialog">
+  <div class="dhead"><h2 id="dTitle">User</h2><button class="btn" id="dClose">Close</button></div>
+  <div class="dbody" id="dBody"></div>
+</dialog>
+
+<script type="module" src="js/users.js"></script>
+</body>
+</html>

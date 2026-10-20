@@ -1,0 +1,18 @@
+/* Shared admin styles. Tokens come from style.css. Dashboard layout is added in the next section. */
+.login-body{min-height:100svh;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at 50% 0,#3a3326 0,var(--ink) 65%)}
+.login-card{width:100%;max-width:420px;background:var(--ivory);border-radius:var(--r);padding:32px 24px;border:1px solid var(--gold);box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.login-card .logo{display:block;text-align:center;color:var(--gold-d);margin-bottom:8px}
+.login-card h1{font-size:1.9rem;text-align:center}
+.login-card .lead{text-align:center;margin:.4rem 0 1.2rem}
+.login-card label{display:block;font-weight:600;margin:14px 0 6px}
+.login-card input{width:100%;min-height:48px;padding:0 14px;border:1px solid #b9ae93;border-radius:10px;font:inherit;background:#fff;color:var(--text)}
+.pw{position:relative}.pw input{padding-right:76px}
+.pw button{position:absolute;right:4px;top:4px;min-height:40px;padding:0 14px;border:0;background:none;color:var(--gold-d);font:inherit;font-weight:600;cursor:pointer}
+.submit{width:100%;margin-top:22px;gap:10px}.submit:disabled{opacity:.7;cursor:wait}
+.spin{width:18px;height:18px;border:2px solid var(--ink);border-top-color:transparent;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.msg{padding:12px 14px;border-radius:10px;font-size:.95rem;margin-bottom:6px}
+.msg.error{background:#fbe9e7;color:#8a1c10;border:1px solid #e8b4ac}
+.msg.info{background:#fff4d6;color:#5b4710;border:1px solid #e2cd8a}
+.back{display:block;text-align:center;margin-top:20px;color:var(--mut)}
+@media(prefers-reduced-motion:reduce){.spin{animation-duration:2s}}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Administrator Login | ACIM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="login-body">
+<main class="login-card">
+  <a class="logo" href="index.html">ACIM</a>
+  <h1>Administrator login</h1>
+  <p class="lead">For authorized Z&amp;L Event Organizing staff only.</p>
+
+  <div id="msg" class="msg" role="alert" hidden></div>
+
+  <form id="loginForm" novalidate>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="username" required>
+
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+
+    <button class="btn btn-gold submit" id="submitBtn" type="submit">
+      <span class="spin" hidden></span><span class="label">Log in</span>
+    </button>
+  </form>
+
+  <!-- Second step: shown only for accounts with two-step verification -->
+  <form id="mfaForm" novalidate hidden>
+    <label for="code">Authentication code</label>
+    <input id="code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="6-digit code" required>
+    <p class="lead" style="margin:.6rem 0 0;font-size:.9rem">Open your authenticator app and enter the current code for ACIM Admin.</p>
+
+    <button class="btn btn-gold submit" id="mfaBtn" type="submit">
+      <span class="spin" hidden></span><span class="label">Verify</span>
+    </button>
+  </form>
+
+  <a class="back" href="index.html">Return to website</a>
+</main>
+<script type="module" src="js/login.js"></script>
+</body>
+</html>

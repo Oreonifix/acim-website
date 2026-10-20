@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Feedback | ACIM Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="shell">
+  <nav class="side">
+    <div class="brand">ACIM</div>
+    <div class="sub">Admin dashboard</div>
+    <a href="admin-dashboard.html">Overview</a>
+    <a href="admin-users.html">Users</a>
+    <a class="active" href="admin-feedback.html">Feedback</a>
+  </nav>
+
+  <main class="main">
+    <div class="top">
+      <h1>Feedback</h1>
+      <div class="who"><span id="who"></span><button class="btn" data-logout>Log out</button></div>
+    </div>
+
+    <div id="err"></div>
+    <div class="tools">
+      <input id="search" type="search" placeholder="Search comments or emails">
+      <select id="fRating" aria-label="Filter by rating">
+        <option value="all">All ratings</option>
+        <option value="5">5 stars</option>
+        <option value="4">4 stars</option>
+        <option value="3">3 stars</option>
+        <option value="2">2 stars</option>
+        <option value="1">1 star</option>
+      </select>
+      <select id="fCategory" aria-label="Filter by category"><option value="all">All categories</option></select>
+      <select id="fClass" aria-label="Filter by classification"><option value="all">All classifications</option></select>
+      <span id="count" class="who"></span>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Rating</th><th>Category</th><th>Comment</th><th>From</th><th>Date</th></tr></thead>
+        <tbody id="tbody"><tr><td colspan="5" class="loading">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="more" id="more"><button class="btn gold" id="moreBtn">Load more</button></div>
+  </main>
+</div>
+<script type="module" src="js/feedback.js"></script>
+</body>
+</html>
