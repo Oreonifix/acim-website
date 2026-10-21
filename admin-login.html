@@ -20,15 +20,19 @@
   <div id="msg" class="msg" role="alert" hidden></div>
 
   <form id="loginForm" novalidate>
-    <label for="email">Email</label>
-    <input id="email" type="email" autocomplete="username" required>
+    <label for="email">Username or email</label>
+    <input id="email" type="text" autocomplete="username" autocapitalize="none" required>
 
     <label for="password">Password</label>
-    <input id="password" type="password" autocomplete="current-password" required>
+    <div class="pw-wrap">
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button type="button" id="pwToggle" class="pw-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+    </div>
 
     <button class="btn btn-gold submit" id="submitBtn" type="submit">
       <span class="spin" hidden></span><span class="label">Log in</span>
     </button>
+    <button type="button" id="forgotBtn" class="linkbtn">Forgot password?</button>
   </form>
 
   <!-- Second step: shown only for accounts with two-step verification -->

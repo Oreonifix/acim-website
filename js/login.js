@@ -1,12 +1,19 @@
 import { auth, isConfigured } from "./firebase-config.js";
 import {
   signInWithEmailAndPassword, signOut, onAuthStateChanged,
-  getMultiFactorResolver, TotpMultiFactorGenerator
+  getMultiFactorResolver, TotpMultiFactorGenerator, sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const $ = (id) => document.getElementById(id);
 const form = $("loginForm"), mfaForm = $("mfaForm"), msg = $("msg");
 const DASHBOARD = "admin-dashboard.html";
+
+// Usernames (no "@") get this hidden domain added, so "Admin" signs in as admin@acim.invalid
+const USERNAME_DOMAIN = "acim.invalid";
+function toLoginEmail(input) {
+  const v = input.trim();
+  return v.includes("@") ? v : v.toLowerCase() + "@" + USERNAME_DOMAIN;
+}
 
 let resolver = null;   // set when the account needs a second step
 let totpHint = null;
@@ -80,9 +87,10 @@ if (reason === "norole") {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   msg.hidden = true;
-  const email = $("email").value.trim();
+  const raw = $("email").value.trim();
   const password = $("password").value;
-  if (!email || !password) { show("Enter your email and password."); return; }
+  if (!raw || !password) { show("Enter your username and password."); return; }
+  const email = toLoginEmail(raw);
 
   const btn = $("submitBtn");
   busy(btn, true, "Log in");
@@ -130,4 +138,36 @@ mfaForm.addEventListener("submit", async (e) => {
     busy(btn, false, "Verify");
     $("code").select();
   }
+});
+
+// Forgot password: sends a reset link to the email typed in the field
+$("forgotBtn").addEventListener("click", async () => {
+  msg.hidden = true;
+  const email = $("email").value.trim();
+  if (!email.includes("@")) {
+    show("Enter your full email address above, then click Forgot password again. Accounts that sign in with a username can't receive emails. Ask a Super Admin to reset the password.");
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (err) {
+    if (err.code === "auth/invalid-email" || err.code === "auth/network-request-failed" || err.code === "auth/too-many-requests") {
+      show(FRIENDLY[err.code] || "Could not send the reset email. Try again.");
+      return;
+    }
+    console.error(err);
+  }
+  // Same message whether or not the account exists
+  show("If that email belongs to an account, a reset link has been sent. Check your inbox and spam folder.", "info");
+});
+
+// Show / hide the password while typing
+$("pwToggle").addEventListener("click", () => {
+  const input = $("password");
+  const show = input.type === "password";
+  input.type = show ? "text" : "password";
+  $("pwToggle").textContent = show ? "Hide" : "Show";
+  $("pwToggle").setAttribute("aria-label", show ? "Hide password" : "Show password");
+  $("pwToggle").setAttribute("aria-pressed", String(show));
+  input.focus();
 });

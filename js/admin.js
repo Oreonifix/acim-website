@@ -1,9 +1,10 @@
+// Shared admin helpers: role check, sign-out, formatting.
 import { auth, db, isConfigured } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 export { db };
 
-let loggingOut = false;
+let loggingOut = false; // stops the "not signed in" redirect from overriding the logout redirect
 
 export const esc = (v) =>
   String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -43,7 +44,8 @@ export function requireAdmin(onReady) {
         return;
       }
       const who = document.getElementById("who");
-      if (who) who.textContent = `${user.email} · ${role}`;
+      const shown = user.email.endsWith("@acim.invalid") ? user.email.split("@")[0] : user.email;
+      if (who) who.textContent = `${shown} · ${role}`;
       onReady(user, role);
     } catch (e) {
       console.error("Admin check failed:", e);

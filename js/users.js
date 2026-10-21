@@ -5,8 +5,8 @@ import {
 
 const PAGE = 25;
 const $ = (id) => document.getElementById(id);
-const rows = [];       // every user loaded so far
-let lastDoc = null;
+const rows = [];       // every user loaded so far: { id, data, hasDesign }
+let lastDoc = null;    // hasDesign: undefined = still checking, true/false = known, null = check failed
 let done = false;
 
 function userName(u) {
@@ -14,21 +14,48 @@ function userName(u) {
 }
 function userEmail(u) { return u.Email || u.email || ""; }
 
+function designCell(r) {
+  if (r.hasDesign === undefined) return "…";
+  if (r.hasDesign === null) return "—";
+  return r.hasDesign ? '<span class="tag" style="margin-left:0">Yes</span>' : "No";
+}
+
 function render() {
   const term = $("search").value.trim().toLowerCase();
-  const shown = rows.filter((r) =>
-    !term || [r.id, userName(r.data), userEmail(r.data)].some((v) => String(v).toLowerCase().includes(term))
-  );
+  const filter = $("filter").value;   // all | yes | no
+
+  const shown = rows.filter((r) => {
+    if (filter === "yes" && r.hasDesign !== true) return false;
+    if (filter === "no" && r.hasDesign !== false) return false;
+    return !term || [r.id, userName(r.data), userEmail(r.data)].some((v) => String(v).toLowerCase().includes(term));
+  });
+
   $("tbody").innerHTML = shown.length
     ? shown.map((r) => `<tr>
         <td>${esc(userName(r.data) || "—")}</td>
         <td>${esc(userEmail(r.data) || "—")}</td>
         <td>${esc(r.data.CreatedAt ? fmtDate(r.data.CreatedAt) : "—")}</td>
+        <td>${designCell(r)}</td>
         <td><button class="btn" data-uid="${esc(r.id)}">View</button></td>
       </tr>`).join("")
-    : '<tr><td colspan="4" class="empty">No users found.</td></tr>';
-  $("count").textContent = `${rows.length} loaded${done ? "" : " (more available)"}`;
+    : '<tr><td colspan="5" class="empty">No users found.</td></tr>';
+
+  $("count").textContent = `${shown.length} shown · ${rows.length} loaded${done ? "" : " (more available)"}`;
   $("more").hidden = done;
+}
+
+// For each newly loaded user, check whether their Designs subcollection has at least one document.
+// Reads only 1 document per user, so it stays cheap.
+async function checkDesigns(newRows) {
+  await Promise.all(newRows.map(async (r) => {
+    try {
+      const snap = await getDocs(query(collection(db, "Users", r.id, "Designs"), limit(1)));
+      r.hasDesign = !snap.empty;
+    } catch (e) {
+      console.error("Design check failed for", r.id, e);
+      r.hasDesign = null;
+    }
+  }));
 }
 
 async function loadMore() {
@@ -38,9 +65,12 @@ async function loadMore() {
     const parts = [collection(db, "Users"), orderBy(documentId()), limit(PAGE)];
     if (lastDoc) parts.splice(2, 0, startAfter(lastDoc));
     const snap = await getDocs(query(...parts));
-    snap.docs.forEach((d) => rows.push({ id: d.id, data: d.data() }));
+    const added = snap.docs.map((d) => ({ id: d.id, data: d.data(), hasDesign: undefined }));
+    rows.push(...added);
     if (snap.docs.length) lastDoc = snap.docs[snap.docs.length - 1];
     if (snap.docs.length < PAGE) done = true;
+    render();                    // show users right away
+    await checkDesigns(added);   // then fill in the design column
     render();
   } catch (e) { showError($("err"), e); }
   btn.disabled = false;
@@ -78,6 +108,7 @@ async function openUser(uid) {
 
 requireAdmin(() => {
   $("search").addEventListener("input", render);
+  $("filter").addEventListener("change", render);
   $("moreBtn").addEventListener("click", loadMore);
   $("tbody").addEventListener("click", (e) => {
     const b = e.target.closest("[data-uid]");
