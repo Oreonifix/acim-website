@@ -65,8 +65,13 @@ function injectStyle() {
     dialog.confirm .field{display:block;margin:12px 0 0;text-align:left}
     dialog.confirm .field span{display:block;font-size:.85rem;color:var(--mut);margin-bottom:4px}
     dialog.confirm .field input{width:100%;min-height:46px;padding:0 12px;border:1px solid #b9ae93;
-      border-radius:10px;font:inherit;background:#fff;color:var(--text)}
-    dialog.confirm .err{color:#8a1c10;font-size:.9rem;min-height:20px;margin-top:10px}
+      border-radius:10px;font:inherit;background:#fff;color:#17161a;caret-color:#17161a;
+      -webkit-text-fill-color:#17161a}
+    dialog.confirm .field input::placeholder{color:#8a857a;-webkit-text-fill-color:#8a857a;opacity:1}
+    dialog.confirm .field input:-webkit-autofill{-webkit-text-fill-color:#17161a;box-shadow:0 0 0 100px #fff inset}
+    dialog.confirm .err{font-size:.9rem;margin-top:10px}
+    dialog.confirm .err:not(:empty){background:#fbe9e7;color:#8a1c10;border:1px solid #e8b4ac;
+      border-radius:10px;padding:10px 12px}
     @media(max-width:480px){dialog.confirm .row2{grid-template-columns:1fr}}
   `;
   document.head.appendChild(s);
