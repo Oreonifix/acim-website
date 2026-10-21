@@ -22,3 +22,12 @@
 .login-card .pw-wrap input{width:100%;padding-right:4.5rem;box-sizing:border-box}
 .pw-toggle{position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:0;color:#c9a85c;font:600 .85rem inherit;font-family:inherit;cursor:pointer;padding:.4rem .6rem;border-radius:6px}
 .pw-toggle:hover{color:#e0c27a;background:rgba(201,168,92,.12)}
+.linkbtn{background:none;border:0;color:#c9a85c;font:inherit;cursor:pointer;margin-top:.9rem;padding:0;text-decoration:underline}
+.linkbtn:hover{color:#e0c27a}
+ 
+.login-card .pw-wrap{position:relative}
+.login-card .pw-wrap input{width:100%;padding-right:4.5rem;box-sizing:border-box}
+.pw-toggle{position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:0;color:#c9a85c;font:600 .85rem inherit;font-family:inherit;cursor:pointer;padding:.4rem .6rem;border-radius:6px}
+.pw-toggle:hover{color:#e0c27a;background:rgba(201,168,92,.12)}
+input::-ms-reveal{display:none}
+ 

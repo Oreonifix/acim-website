@@ -1,9 +1,11 @@
 // Shared admin helpers: role check, sign-out, formatting.
 import { auth, db, isConfigured } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 export { db };
 
+let stopWatch = null;    // listener that signs this device out if the account logs in elsewhere
 let loggingOut = false; // stops the "not signed in" redirect from overriding the logout redirect
 
 export const esc = (v) =>
@@ -46,6 +48,16 @@ export function requireAdmin(onReady) {
       const who = document.getElementById("who");
       const shown = user.email.endsWith("@acim.invalid") ? user.email.split("@")[0] : user.email;
       if (who) who.textContent = `${shown} · ${role}`;
+      // One device per admin: if another device logs in, this one is signed out
+      if (stopWatch) stopWatch();
+      stopWatch = onSnapshot(doc(db, "adminSessions", user.uid), async (snap) => {
+        if (!snap.exists() || snap.data().sid !== localStorage.getItem("acimSid")) {
+          if (stopWatch) stopWatch();
+          loggingOut = true;
+          await signOut(auth);
+          location.replace("admin-login.html?reason=otherdevice");
+        }
+      }, (err) => console.error("Session check failed:", err));
       onReady(user, role);
     } catch (e) {
       console.error("Admin check failed:", e);
