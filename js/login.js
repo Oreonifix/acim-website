@@ -1,8 +1,9 @@
-import { auth, isConfigured } from "./firebase-config.js";
+import { auth, db, isConfigured } from "./firebase-config.js";
 import {
   signInWithEmailAndPassword, signOut, onAuthStateChanged,
   getMultiFactorResolver, TotpMultiFactorGenerator, sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const $ = (id) => document.getElementById(id);
 const form = $("loginForm"), mfaForm = $("mfaForm"), msg = $("msg");
@@ -15,6 +16,7 @@ function toLoginEmail(input) {
   return v.includes("@") ? v : v.toLowerCase() + "@" + USERNAME_DOMAIN;
 }
 
+let signingIn = false;   // true while a login is in progress, so the auto-redirect below does not jump ahead of claimSession
 let resolver = null;   // set when the account needs a second step
 let totpHint = null;
 
@@ -45,12 +47,32 @@ const FRIENDLY = {
   "auth/code-expired": "That code has expired. Enter the current 6-digit code."
 };
 
+// One device per admin: the newest login becomes the active session, older devices get signed out
+async function claimSession(user) {
+  const sid = crypto.randomUUID();
+  await setDoc(doc(db, "adminSessions", user.uid), {
+    sid,
+    email: user.email,
+    startedAt: serverTimestamp(),
+    device: navigator.userAgent.slice(0, 200)
+  });
+  localStorage.setItem("acimSid", sid);
+}
+
 // Check the role, then go to the dashboard. Used after both login steps.
 async function finish(user) {
   const token = await user.getIdTokenResult(true);
   if (!isAdmin(token)) {
     await signOut(auth);
     show("This account is not authorized for the dashboard. (Signed in, but no admin role was found on it.)");
+    return false;
+  }
+  try {
+    await claimSession(user);
+  } catch (e) {
+    console.error(e);
+    await signOut(auth);
+    show("Could not start your session. Check the Firestore rules for adminSessions. See the browser console (F12).");
     return false;
   }
   location.replace(DASHBOARD);
@@ -63,7 +85,7 @@ if (!isConfigured || !auth) {
 } else {
   // Already signed in as an admin? Go straight to the dashboard.
   onAuthStateChanged(auth, async (user) => {
-    if (!user) return;
+    if (!user || signingIn) return;
     try {
       const token = await user.getIdTokenResult();
       if (isAdmin(token)) location.replace(DASHBOARD);
@@ -79,6 +101,8 @@ if (reason === "norole") {
   show("The dashboard could not verify your role. Open the browser console (F12) for details.");
 } else if (reason === "mfa-on") {
   show("Two-step verification is now on. Log in again and enter the code from your authenticator app.", "info");
+} else if (reason === "otherdevice") {
+  show("You were signed out because this account logged in on another device.", "info");
 } else if (reason === "relogin") {
   show("Please log in again to continue.", "info");
 }
@@ -94,10 +118,12 @@ form.addEventListener("submit", async (e) => {
 
   const btn = $("submitBtn");
   busy(btn, true, "Log in");
+  signingIn = true;
   try {
     const cred = await signInWithEmailAndPassword(auth, email, password);
-    if (!(await finish(cred.user))) busy(btn, false, "Log in");
+    if (!(await finish(cred.user))) { signingIn = false; busy(btn, false, "Log in"); }
   } catch (err) {
+    signingIn = false;
     if (err.code === "auth/multi-factor-auth-required") {
       resolver = getMultiFactorResolver(auth, err);
       totpHint = resolver.hints.find((h) => h.factorId === TotpMultiFactorGenerator.FACTOR_ID);
@@ -128,11 +154,13 @@ mfaForm.addEventListener("submit", async (e) => {
 
   const btn = $("mfaBtn");
   busy(btn, true, "Verify");
+  signingIn = true;
   try {
     const assertion = TotpMultiFactorGenerator.assertionForSignIn(totpHint.uid, code);
     const cred = await resolver.resolveSignIn(assertion);
-    if (!(await finish(cred.user))) busy(btn, false, "Verify");
+    if (!(await finish(cred.user))) { signingIn = false; busy(btn, false, "Verify"); }
   } catch (err) {
+    signingIn = false;
     console.error(err);
     show(FRIENDLY[err.code] || `Verification failed: ${err.code || err.message}`);
     busy(btn, false, "Verify");
@@ -145,7 +173,7 @@ $("forgotBtn").addEventListener("click", async () => {
   msg.hidden = true;
   const email = $("email").value.trim();
   if (!email.includes("@")) {
-    show("Enter your full email address above, then click Forgot password again. Accounts that sign in with a username can't receive emails. Ask a Super Admin to reset the password.");
+    show("Enter your full email address above, then click Forgot password again. Accounts that sign in with a username can't receive emails. Ask the site owner to reset the password.");
     return;
   }
   try {
