@@ -1,4 +1,5 @@
 import { requireAdmin, db, esc, fmtDate, showError } from "./admin.js";
+import { openAddUserDialog } from "./add-user.js";
 import {
   collection, query, orderBy, limit, startAfter, getDocs, documentId
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -10,7 +11,7 @@ let lastDoc = null;    // hasDesign: undefined = still checking, true/false = kn
 let done = false;
 
 function userName(u) {
-  return u.Name || u.name || u.DisplayName || u.displayName || u.Username || u.username || "";
+  return u.FullName || u.Name || u.name || u.DisplayName || u.displayName || u.Username || u.username || "";
 }
 function userEmail(u) { return u.Email || u.email || ""; }
 
@@ -65,7 +66,7 @@ async function loadMore() {
     const parts = [collection(db, "Users"), orderBy(documentId()), limit(PAGE)];
     if (lastDoc) parts.splice(2, 0, startAfter(lastDoc));
     const snap = await getDocs(query(...parts));
-    const added = snap.docs.map((d) => ({ id: d.id, data: d.data(), hasDesign: undefined }));
+    const added = snap.docs.filter((d) => !rows.some((r) => r.id === d.id)).map((d) => ({ id: d.id, data: d.data(), hasDesign: undefined }));
     rows.push(...added);
     if (snap.docs.length) lastDoc = snap.docs[snap.docs.length - 1];
     if (snap.docs.length < PAGE) done = true;
@@ -107,6 +108,12 @@ async function openUser(uid) {
 }
 
 requireAdmin(() => {
+  $("addUserBtn").addEventListener("click", async () => {
+  const created = await openAddUserDialog();
+  if (!created) return;
+  rows.unshift({ id: created.id, data: created.data, hasDesign: false });
+  render();
+});
   $("search").addEventListener("input", render);
   $("filter").addEventListener("change", render);
   $("moreBtn").addEventListener("click", loadMore);
