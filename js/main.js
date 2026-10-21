@@ -1,6 +1,50 @@
 (function () {
   'use strict';
 
+  // Light / dark theme. Follows the device until the visitor picks one with the button.
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeBtn');
+  var dark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function currentTheme() {
+    var t = root.dataset.theme;
+    if (t === 'dark' || t === 'light') return t;
+    return dark && dark.matches ? 'dark' : 'light';
+  }
+  function paintTheme() {
+    if (!themeBtn) return;
+    var t = currentTheme();
+    themeBtn.dataset.mode = t;
+    themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try { localStorage.setItem('acim-theme', next); } catch (e) {}
+      paintTheme();
+    });
+    if (dark && dark.addEventListener) dark.addEventListener('change', paintTheme);
+    paintTheme();
+  }
+
+  // Floor plan in the hero: switch carpet, arch and flowers on and off
+  document.querySelectorAll('.tool').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var on = btn.getAttribute('aria-pressed') !== 'true';
+      btn.setAttribute('aria-pressed', String(on));
+      var group = document.getElementById(btn.dataset.target);
+      if (group) group.classList.toggle('off', !on);
+    });
+  });
+
+  // Footer link that reopens the cookie notice
+  document.querySelectorAll('[data-cookie-settings]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (window.openCookieSettings) window.openCookieSettings();
+    });
+  });
+
   // Mobile menu
   var toggle = document.getElementById('navToggle');
   var menu = document.getElementById('navMenu');

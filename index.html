@@ -3,89 +3,117 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ACIM | Visualize Your Church Wedding Before the Big Day</title>
+<meta name="color-scheme" content="light dark">
+<title>ACIM | Preview your church wedding decorations before the big day</title>
 <meta name="description" content="ACIM is an Android app by Z&L Event Organizing Services for previewing church wedding designs in 3D and augmented reality.">
+<script>try{var t=localStorage.getItem("acim-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
-  <a class="logo" href="#home">ACIM</a>
-  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Open menu"><span></span><span></span></button>
+  <span class="logo" id="secretLogo">ACIM</span>
   <nav id="navMenu" class="nav-menu" aria-label="Main">
-    <a href="#home">Home</a>
-    <a href="#about">About ACIM</a>
+    <a href="#about">About</a>
     <a href="#features">Features</a>
-    <a href="#gallery">Design Gallery</a>
-    <a href="#how">How It Works</a>
-    <a href="#download" class="btn btn-gold btn-sm">Download App</a>
-    <a href="admin-login.html" class="nav-admin">Admin Login</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#how">How it works</a>
+    <a href="#faq">FAQ</a>
+    <a href="#download" class="btn btn-primary btn-sm">Download</a>
   </nav>
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="Switch to dark mode" title="Switch theme">
+    <svg class="i-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" fill="currentColor"/></svg>
+    <svg class="i-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></g></svg>
+  </button>
+  <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Open menu"><span></span><span></span></button>
 </header>
 
 <main id="main">
 <section class="hero" id="home">
-  <div class="aisle" aria-hidden="true"><i></i><i></i><i></i></div>
-  <div class="hero-copy">
-    <h1>Visualize Your Dream Church Wedding Before the Big Day.</h1>
-    <p>Bring your church wedding vision to life with ACIM. Explore elegant wedding arrangements, customize decorative elements, and preview your designs through interactive 3D visualization and augmented reality.</p>
-    <div class="actions">
-      <a class="btn btn-gold" href="#download" data-download-link>Download ACIM APK</a>
-      <a class="btn btn-ghost" href="#features">Explore Features</a>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <h1>Preview your church wedding decorations before the big day.</h1>
+      <p class="hero-text">ACIM is an Android app for couples, wedding planners, and event coordinators. Try preset arrangements in a simulated church, adjust them, and view the result in 3D or augmented reality.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#download" data-download-link>Download APK</a>
+        <a class="btn btn-quiet" href="#gallery">See the gallery</a>
+      </div>
+      <p class="note">For Android phones. AR works on supported devices.</p>
     </div>
-    <p class="hero-note">For Android phones. AR works on supported devices.</p>
+    <figure class="plan">
+      <svg class="plan-svg" viewBox="0 0 320 496" role="img" aria-label="Simplified floor plan of a church with an aisle carpet, an entrance arch and flower stands">
+  <rect class="p-wall" x="20" y="20" width="280" height="440"/>
+  <rect class="p-gap" x="128" y="455" width="64" height="10"/><rect class="p-win" x="17" y="130" width="6" height="24"/><rect class="p-win" x="297" y="130" width="6" height="24"/><rect class="p-win" x="17" y="210" width="6" height="24"/><rect class="p-win" x="297" y="210" width="6" height="24"/><rect class="p-win" x="17" y="290" width="6" height="24"/><rect class="p-win" x="297" y="290" width="6" height="24"/><rect class="p-win" x="17" y="370" width="6" height="24"/><rect class="p-win" x="297" y="370" width="6" height="24"/><path class="p-cross" d="M160 61v10M156 64h8"/>
+  <rect class="p-block" x="96" y="34" width="128" height="40"/>
+  <rect class="p-altar" x="140" y="46" width="40" height="12"/>
+  <text class="p-label" x="160" y="92" text-anchor="middle">Altar</text>
+  <rect class="p-pew" x="44" y="112" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="112" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="138" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="138" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="164" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="164" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="190" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="190" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="216" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="216" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="242" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="242" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="268" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="268" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="294" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="294" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="320" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="320" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="346" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="346" width="76" height="14" rx="2"/><rect class="p-pew" x="44" y="372" width="76" height="14" rx="2"/><rect class="p-pew" x="200" y="372" width="76" height="14" rx="2"/>
+  <g class="p-group" id="gCarpet"><rect class="p-carpet" x="146" y="100" width="28" height="360"/></g>
+  <g class="p-group" id="gFlowers"><g class="stand" style="--i:0"><circle class="p-bloom" cx="130" cy="124" r="8"/><circle class="p-core" cx="130" cy="124" r="3"/></g><g class="stand" style="--i:0"><circle class="p-bloom" cx="190" cy="124" r="8"/><circle class="p-core" cx="190" cy="124" r="3"/></g><g class="stand" style="--i:1"><circle class="p-bloom" cx="130" cy="188" r="8"/><circle class="p-core" cx="130" cy="188" r="3"/></g><g class="stand" style="--i:1"><circle class="p-bloom" cx="190" cy="188" r="8"/><circle class="p-core" cx="190" cy="188" r="3"/></g><g class="stand" style="--i:2"><circle class="p-bloom" cx="130" cy="252" r="8"/><circle class="p-core" cx="130" cy="252" r="3"/></g><g class="stand" style="--i:2"><circle class="p-bloom" cx="190" cy="252" r="8"/><circle class="p-core" cx="190" cy="252" r="3"/></g><g class="stand" style="--i:3"><circle class="p-bloom" cx="130" cy="316" r="8"/><circle class="p-core" cx="130" cy="316" r="3"/></g><g class="stand" style="--i:3"><circle class="p-bloom" cx="190" cy="316" r="8"/><circle class="p-core" cx="190" cy="316" r="3"/></g><g class="stand" style="--i:4"><circle class="p-bloom" cx="130" cy="380" r="8"/><circle class="p-core" cx="130" cy="380" r="3"/></g><g class="stand" style="--i:4"><circle class="p-bloom" cx="190" cy="380" r="8"/><circle class="p-core" cx="190" cy="380" r="3"/></g></g>
+  <g class="p-group" id="gArch"><line class="p-garland" x1="136" y1="432" x2="184" y2="432"/><circle class="p-post" cx="136" cy="432" r="8"/><circle class="p-post" cx="184" cy="432" r="8"/></g>
+  <text class="p-label" x="160" y="486" text-anchor="middle">Entrance</text>
+</svg>
+      <div class="tools" role="group" aria-label="Choose what to place in the church">
+        <button class="tool" type="button" aria-pressed="true" data-target="gCarpet">Aisle carpet</button>
+        <button class="tool" type="button" aria-pressed="true" data-target="gArch">Entrance arch</button>
+        <button class="tool" type="button" aria-pressed="true" data-target="gFlowers">Flower stands</button>
+      </div>
+      <figcaption>Simplified floor plan to show the idea of placing decorations. It is not a screenshot of the app.</figcaption>
+    </figure>
   </div>
 </section>
 
-<section class="section light" id="about">
-  <div class="wrap narrow">
+<section class="sec" id="about">
+  <div class="wrap split">
     <h2>A clearer picture of the wedding, before anything is built</h2>
-    <p>ACIM is a mobile application for couples, wedding planners, and event coordinators. It simulates a church setting so everyone can see how decorations will look and agree on a plan before the day arrives. It was developed as a capstone project for Z&amp;L Event Organizing Services.</p>
-    <ul class="ticks">
-      <li>Understand wedding design concepts more clearly.</li>
-      <li>Preview decorations in a simulated church environment.</li>
-      <li>Compare and adjust preset wedding arrangements.</li>
-      <li>Save designs for future reference.</li>
-      <li>Improve communication between clients and planners.</li>
+    <div class="prose">
+      <p>ACIM is a mobile application for couples, wedding planners, and event coordinators. It simulates a church setting so everyone can see how decorations will look and agree on a plan before the day arrives. It was developed as a capstone project for Z&amp;L Event Organizing Services.</p>
+      <ul class="plain">
+        <li>Understand wedding design concepts more clearly.</li>
+        <li>Preview decorations in a simulated church environment.</li>
+        <li>Compare and adjust preset wedding arrangements.</li>
+        <li>Save designs for future reference.</li>
+        <li>Improve communication between clients and planners.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="features">
+  <div class="wrap split">
+    <h2>What you can do in the app</h2>
+    <ul class="features">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg><h3>Augmented reality visualization</h3><p>View virtual wedding decorations through your camera on supported Android devices.</p></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg><h3>Editable wedding decorations</h3><p>Adjust the available preset decorations and their placement.</p></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10v18l-5-4-5 4V3z"/></svg><h3>Saved designs</h3><p>Save customized previews and return to them later.</p></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg><h3>User feedback</h3><p>Send ratings, comments, and suggestions about the app.</p></li>
     </ul>
   </div>
 </section>
 
-<section class="section dark" id="features">
-  <div class="wrap">
-    <h2>What you can do in the app</h2>
-    <div class="grid">
-      <article class="card"><span class="ico" aria-hidden="true">&#9673;</span><h3>Augmented Reality Visualization</h3><p>View virtual wedding decorations through your camera on supported Android devices.</p></article>
-      <article class="card"><span class="ico" aria-hidden="true">&#10022;</span><h3>Editable Wedding Decorations</h3><p>Adjust the available preset decorations and their placement.</p></article>
-      <article class="card"><span class="ico" aria-hidden="true">&#9825;</span><h3>Saved Designs</h3><p>Save customized previews and return to them later.</p></article>
-      <article class="card"><span class="ico" aria-hidden="true">&#9734;</span><h3>User Feedback</h3><p>Send ratings, comments, and suggestions about the app.</p></article>
-    </div>   
-</section>
-
-<section class="section light" id="gallery">
+<section class="sec tint" id="gallery">
   <div class="wrap">
     <h2>Design gallery</h2>
     <p class="lead">Sample concepts shown as placeholders. Designs saved by app users are private and never shown here.</p>
     <div class="filters" role="group" aria-label="Filter designs">
-      <button class="chip active" data-filter="all" aria-pressed="true">All</button>
-      <button class="chip" data-filter="floral" aria-pressed="false">Floral</button>
-      <button class="chip" data-filter="arch" aria-pressed="false">Entrance arch</button>
-      <button class="chip" data-filter="carpet" aria-pressed="false">Carpet</button>
+      <button class="chip active" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-filter="floral" aria-pressed="false">Floral</button>
+      <button class="chip" type="button" data-filter="arch" aria-pressed="false">Entrance arch</button>
+      <button class="chip" type="button" data-filter="carpet" aria-pressed="false">Carpet</button>
     </div>
-    <div class="grid gallery" id="galleryGrid">
-      <!-- Replace each .ph with <img src="assets/gallery/NAME.jpg" alt="..." loading="lazy" width="800" height="600"> -->
-      <figure class="g" data-cat="floral"><img src="assets/gallery/flower.png" alt="Tall floral stand arrangement" loading="lazy" width="800"><figcaption><h3>Tall floral stands</h3><p>Roses, lilies, and hydrangeas on pedestals.</p></figcaption></figure>
-      <figure class="g" data-cat="arch"><img src="assets/gallery/arch.png" alt="Flower entrance arch" loading="lazy" width="800"><figcaption><h3>Flower entrance arch</h3><p>A floral arch at the church doors.</p></figcaption></figure>
-      <figure class="g" data-cat="carpet"><img src="assets/gallery/carpet.png" alt="Aisle carpet runner" loading="lazy" width="800"><figcaption><h3>Aisle carpet</h3><p>Carpet runners in blue, red, and brown.</p></figcaption></figure>
+    <div class="gallery" id="galleryGrid">
+      <figure class="g" data-cat="floral"><img src="assets/gallery/flower.png" alt="Tall floral stand arrangement" loading="lazy" width="800" height="600"><figcaption><h3>Tall floral stands</h3><p>Roses, lilies, and hydrangeas on pedestals.</p></figcaption></figure>
+      <figure class="g" data-cat="arch"><img src="assets/gallery/arch.png" alt="Flower entrance arch" loading="lazy" width="800" height="600"><figcaption><h3>Flower entrance arch</h3><p>A floral arch at the church doors.</p></figcaption></figure>
+      <figure class="g" data-cat="carpet"><img src="assets/gallery/carpet.png" alt="Aisle carpet runner" loading="lazy" width="800" height="600"><figcaption><h3>Aisle carpet</h3><p>Carpet runners in blue, red, and brown.</p></figcaption></figure>
     </div>
   </div>
 </section>
 
-<section class="section dark" id="how">
+<section class="sec" id="how">
   <div class="wrap">
     <h2>How it works</h2>
     <ol class="steps">
@@ -97,18 +125,20 @@
   </div>
 </section>
 
-<section class="section download" id="download">
-  <div class="wrap narrow center">
-    <h2>Start Designing Your Dream Wedding</h2>
-    <p>ACIM puts church wedding design, 3D preview, and AR visualization in your pocket.</p>
-    <!-- Set the real file name/URL once the APK is hosted. -->
-    <a class="btn btn-gold btn-lg" id="apkBtn" href="downloads/ACIMProject.apk" download data-download-link>Download APK</a>
-    <p class="fine" id="apkStatus" role="status"></p>
-    <dl class="meta">
-      <div><dt>Platform</dt><dd>Android (minimum version to be confirmed)</dd></div>
-      <div><dt>Version</dt><dd>1.0</dd></div>
-      <div><dt>File size</dt><dd>87mb</dd></div>
-    </dl>
+<section class="sec tint" id="download">
+  <div class="wrap split">
+    <div>
+      <h2>Download ACIM</h2>
+      <p class="prose-p">Install the Android app and start with the preset arrangements.</p>
+      <!-- Set the real file name/URL once the APK is hosted. -->
+      <a class="btn btn-primary btn-lg" id="apkBtn" href="downloads/ACIMProject.apk" download data-download-link>Download APK</a>
+      <p class="fine" id="apkStatus" role="status"></p>
+      <dl class="meta">
+        <div><dt>Platform</dt><dd>Android (minimum version to be confirmed)</dd></div>
+        <div><dt>Version</dt><dd>1.0</dd></div>
+        <div><dt>File size</dt><dd>87 MB</dd></div>
+      </dl>
+    </div>
     <div class="install">
       <h3>Install in four steps</h3>
       <ol>
@@ -122,8 +152,8 @@
   </div>
 </section>
 
-<section class="section light" id="faq">
-  <div class="wrap narrow">
+<section class="sec" id="faq">
+  <div class="wrap split">
     <h2>Frequently asked questions</h2>
     <div class="faq">
       <details><summary>What is ACIM?</summary><p>ACIM is an Android app for previewing church wedding designs in 3D and augmented reality, made for Z&amp;L Event Organizing Services.</p></details>
@@ -141,15 +171,27 @@
 <footer class="footer">
   <div class="wrap foot">
     <div><strong class="logo">ACIM</strong><p>An Integrated Visualization System for Church Wedding Event Design and Concept Development.</p></div>
-    <nav aria-label="Footer"><a href="#about">About ACIM</a><a href="#features">Features</a><a href="#gallery">Design Gallery</a><a href="#download">Download App</a><a href="admin-login.html">Admin Login</a></nav>
+    <nav aria-label="Footer"><a href="#about">About</a><a href="#features">Features</a><a href="#gallery">Gallery</a><a href="#download">Download</a></nav>
     <div><p>Z&amp;L Event Organizing Services</p><p>Email: ycarorenzereyes02@gmail.com</p><p>Phone: +63 926 455 8687</p><p>Address: 83 Diam St. Road 2 Gen T Deleon Valenzuela City</p></div>
   </div>
-  <p class="copy">&copy; <span id="year">2026</span> ACIM. A BSIT capstone project for Z&amp;L Event Organizing Services.</p>
+  <p class="wrap copy">&copy; <span id="year">2026</span> ACIM. A BSIT capstone project for Z&amp;L Event Organizing Services.</p>
 </footer>
 
 <a class="sticky-dl" id="stickyDl" href="#download" data-download-link hidden>Download APK</a>
 <script src="js/main.js"></script>
-<script src="js/cookie-banner.js" defer></script>
-<a href="#" onclick="openCookieSettings();return false">Cookie settings</a>
+<script>
+  // Hidden admin entry: click the ACIM logo 3 times quickly. Change CLICKS_NEEDED to 1 for a single click.
+  (function () {
+    var CLICKS_NEEDED = 3, WINDOW_MS = 1500, count = 0, timer = null;
+    var logo = document.getElementById("secretLogo");
+    if (!logo) return;
+    logo.addEventListener("click", function () {
+      count++;
+      clearTimeout(timer);
+      timer = setTimeout(function () { count = 0; }, WINDOW_MS);
+      if (count >= CLICKS_NEEDED) { count = 0; location.href = "admin-login.html"; }
+    });
+  })();
+</script>
 </body>
 </html>
