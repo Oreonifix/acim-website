@@ -42,7 +42,7 @@ function render() {
     ? shown.map(({ data: x }) => `<tr>
         <td>${stars(x.Rating)}</td>
         <td>${esc(x.Category || "—")}${x.Classification ? `<br><span class="tag" style="margin-left:0">${esc(x.Classification)}</span>` : ""}</td>
-        <td>${esc(x.Comment || "—")}</td>
+        <td class="comment"><div class="clamp">${esc(x.Comment || "—")}</div></td>
         <td>${esc(x.UserEmail || "—")}</td>
         <td>${esc(fmtDate(x.CreatedAt))}</td>
       </tr>`).join("")

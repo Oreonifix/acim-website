@@ -61,7 +61,7 @@ requireAdmin(() => {
     }
     fill(el, snap.docs, (d) => {
       const u = d.data();
-      const name = u.Name || u.name || u.DisplayName || u.displayName || u.Username || u.username || "";
+      const name = u.FullName || u.Name || u.name || u.DisplayName || u.displayName || u.Username || u.username || "";
       const email = u.Email || u.email || "";
       return `<li><div class="t">${esc(name || email || d.id)}</div>
         <div class="m">${esc(email && name ? email : "")} ${u.CreatedAt ? "· " + esc(fmtDate(u.CreatedAt)) : ""}</div></li>`;
@@ -76,7 +76,7 @@ requireAdmin(() => {
       return `<li><div class="t">${stars(x.Rating)}
           ${x.Category ? `<span class="tag">${esc(x.Category)}</span>` : ""}
           ${x.Classification ? `<span class="tag">${esc(x.Classification)}</span>` : ""}</div>
-        <div>${esc(x.Comment || "")}</div>
+        <div class="clamp">${esc(x.Comment || "")}</div>
         <div class="m">${esc(x.UserEmail || "")} · ${esc(fmtDate(x.CreatedAt))}</div></li>`;
     });
   });

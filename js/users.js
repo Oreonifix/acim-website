@@ -15,6 +15,11 @@ function userName(u) {
 }
 function userEmail(u) { return u.Email || u.email || ""; }
 
+function isVerified(u) { return u.EmailVerified === true || u.emailVerified === true; }
+function verifiedCell(u) {
+  return isVerified(u) ? '<span class="pill yes">Verified</span>' : '<span class="pill no">Not verified</span>';
+}
+
 function designCell(r) {
   if (r.hasDesign === undefined) return "…";
   if (r.hasDesign === null) return "—";
@@ -24,10 +29,13 @@ function designCell(r) {
 function render() {
   const term = $("search").value.trim().toLowerCase();
   const filter = $("filter").value;   // all | yes | no
+  const vf = $("fVerified").value;    // all | yes | no
 
   const shown = rows.filter((r) => {
     if (filter === "yes" && r.hasDesign !== true) return false;
     if (filter === "no" && r.hasDesign !== false) return false;
+    if (vf === "yes" && !isVerified(r.data)) return false;
+    if (vf === "no" && isVerified(r.data)) return false;
     return !term || [r.id, userName(r.data), userEmail(r.data)].some((v) => String(v).toLowerCase().includes(term));
   });
 
@@ -37,9 +45,10 @@ function render() {
         <td>${esc(userEmail(r.data) || "—")}</td>
         <td>${esc(r.data.CreatedAt ? fmtDate(r.data.CreatedAt) : "—")}</td>
         <td>${designCell(r)}</td>
+        <td>${verifiedCell(r.data)}</td>
         <td><button class="btn" data-uid="${esc(r.id)}">View</button></td>
       </tr>`).join("")
-    : '<tr><td colspan="5" class="empty">No users found.</td></tr>';
+    : '<tr><td colspan="6" class="empty">No users found.</td></tr>';
 
   $("count").textContent = `${shown.length} shown · ${rows.length} loaded${done ? "" : " (more available)"}`;
   $("more").hidden = done;
@@ -93,7 +102,8 @@ async function openUser(uid) {
     const dList = designs.docs.map((d) => d.data());
     const fList = feedback.docs.map((d) => d.data());
     $("dBody").innerHTML = `
-      <p class="m" style="color:var(--muted);font-size:13px;word-break:break-all">User ID: ${esc(uid)}</p>
+      <p class="m">${row ? verifiedCell(row.data) : ""} ${esc(row ? userEmail(row.data) : "")}</p>
+      <p class="m">User ID: ${esc(uid)}</p>
       <h3>Designs (${dList.length})</h3>
       ${dList.length ? `<ul class="list">${dList.map((x) => `<li>
           <div class="t">${esc(x.DesignName || "Untitled design")}</div>
@@ -104,7 +114,7 @@ async function openUser(uid) {
           <div class="t"><span class="stars">${"★".repeat(Math.round(Number(x.Rating) || 0))}</span>
             ${x.Category ? `<span class="tag">${esc(x.Category)}</span>` : ""}
             ${x.Classification ? `<span class="tag">${esc(x.Classification)}</span>` : ""}</div>
-          <div>${esc(x.Comment || "")}</div>
+          <div class="clamp">${esc(x.Comment || "")}</div>
           <div class="m">${esc(fmtDate(x.CreatedAt))}</div></li>`).join("")}</ul>`
         : '<div class="empty">No feedback.</div>'}`;
   } catch (e) { showError($("dBody"), e); }
@@ -113,6 +123,7 @@ async function openUser(uid) {
 requireAdmin(() => {
   $("search").addEventListener("input", render);
   $("filter").addEventListener("change", render);
+  $("fVerified").addEventListener("change", render);
   $("moreBtn").addEventListener("click", loadMore);
   $("tbody").addEventListener("click", (e) => {
     const b = e.target.closest("[data-uid]");

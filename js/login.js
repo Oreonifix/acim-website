@@ -47,7 +47,7 @@ const FRIENDLY = {
   "auth/code-expired": "That code has expired. Enter the current 6-digit code."
 };
 
-// One device per admin: the newest login becomes the active session, older devices get signed out
+// One device per admin account
 async function claimSession(user) {
   const sid = crypto.randomUUID();
   await setDoc(doc(db, "adminSessions", user.uid), {

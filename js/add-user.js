@@ -1,6 +1,4 @@
 // js/add-user.js  -  "Add user" for the ACIM admin dashboard
-// Creates the Firebase Auth account AND the Firestore Users/{uid} document,
-// without logging the admin out.
 import { auth, db } from "./firebase-config.js";
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {

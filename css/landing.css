@@ -14,8 +14,8 @@
   --accent-text: #7D621A;     /* darker gold for small text and markers on light */
   --on-accent: #17161A;
   --bloom: #EBD3CC;
-  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --logo: "Cormorant Garamond", Georgia, "Times New Roman", serif;   /* used only by the ACIM logo */
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 /* Dark: follows the device unless the visitor picked a theme with the button */
@@ -84,7 +84,7 @@ h1, h2, h3 { margin: 0; font-weight: 600; }
 }
 .logo {
   margin-right: auto;
-  font: 700 1.75rem/1 var(--serif); letter-spacing: 0.03em;
+  font: 700 1.75rem/1 var(--logo); letter-spacing: 0.03em;
   user-select: none; -webkit-user-select: none;
 }
 .nav-menu {
@@ -140,8 +140,8 @@ h1, h2, h3 { margin: 0; font-weight: 600; }
 .btn-lg { min-height: 56px; padding: 0 32px; font-size: 1.0625rem; }
 
 /* ---------- Type ---------- */
-h1 { font-family: var(--serif); font-size: clamp(2.6rem, 1.4rem + 5vw, 4.4rem); line-height: 1.04; letter-spacing: -0.01em; }
-h2 { font-family: var(--serif); font-size: clamp(2rem, 1.3rem + 2.6vw, 3rem); line-height: 1.1; letter-spacing: -0.005em; max-width: 18ch; }
+h1 { font-family: var(--sans); font-size: clamp(2.25rem, 1.2rem + 4.4vw, 3.75rem); line-height: 1.08; letter-spacing: -0.025em; }
+h2 { font-family: var(--sans); font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.5rem); line-height: 1.15; letter-spacing: -0.02em; max-width: 20ch; }
 .lead, .prose p, .prose-p, .hero-text { max-width: 62ch; }
 .lead { margin-top: 16px; color: var(--muted); }
 
@@ -217,7 +217,7 @@ h2 { font-family: var(--serif); font-size: clamp(2rem, 1.3rem + 2.6vw, 3rem); li
 .features { margin: 0; padding: 0; list-style: none; display: grid; gap: 36px; }
 .features li { display: grid; grid-template-columns: 28px 1fr; column-gap: 20px; }
 .features svg { grid-row: 1 / span 2; width: 28px; height: 28px; margin-top: 3px; color: var(--accent-text); }
-.features h3 { font: 600 1.75rem/1.2 var(--serif); }
+.features h3 { font: 600 1.375rem/1.25 var(--sans); letter-spacing: -0.01em; }
 .features p { margin: 8px 0 0; max-width: 56ch; color: var(--muted); }
 
 /* ---------- Gallery ---------- */
@@ -241,7 +241,7 @@ h2 { font-family: var(--serif); font-size: clamp(2rem, 1.3rem + 2.6vw, 3rem); li
 /* ---------- Steps ---------- */
 .steps { margin: 40px 0 0; padding: 0; list-style: none; display: grid; gap: 32px; counter-reset: step; }
 .steps li { counter-increment: step; }
-.steps li::before { content: counter(step); display: block; margin-bottom: 8px; font: 600 3.25rem/1 var(--serif); color: var(--accent-text); }
+.steps li::before { content: counter(step); display: block; margin-bottom: 8px; font: 600 2.5rem/1 var(--sans); letter-spacing: -0.02em; color: var(--accent-text); }
 .steps h3 { font: 600 1.0625rem/1.3 var(--sans); }
 .steps p { margin: 6px 0 0; color: var(--muted); }
 @media (min-width: 700px) { .steps { grid-template-columns: repeat(2, 1fr); } }
@@ -262,7 +262,7 @@ h2 { font-family: var(--serif); font-size: clamp(2rem, 1.3rem + 2.6vw, 3rem); li
 .meta dt { font-size: 0.875rem; color: var(--muted); }
 .meta dd { margin: 2px 0 0; font-weight: 500; }
 .install { border-left: 3px solid var(--accent); padding-left: 24px; }
-.install h3 { font: 600 1.75rem/1.2 var(--serif); }
+.install h3 { font: 600 1.375rem/1.25 var(--sans); letter-spacing: -0.01em; }
 .install ol { margin: 16px 0 0; padding-left: 1.3em; }
 .install li { padding-left: 4px; margin-bottom: 8px; }
 .install li::marker { color: var(--accent-text); font-weight: 600; }

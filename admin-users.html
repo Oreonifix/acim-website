@@ -7,9 +7,10 @@
 <title>Users | ACIM Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/dashboard.css">
 <script src="js/theme.js"></script>
+<script src="js/expand.js" defer></script>
 </head>
 <body>
 <div class="shell">
@@ -42,14 +43,19 @@
         <option value="yes">Created a design</option>
         <option value="no">No design yet</option>
       </select>
+      <select id="fVerified" aria-label="Filter by email verification">
+        <option value="all">All accounts</option>
+        <option value="yes">Verified email</option>
+        <option value="no">Not verified</option>
+      </select>
       <button class="btn gold" id="addUserBtn" type="button">Add user</button>
       <span id="count" class="count"></span>
     </div>
 
     <div class="tablewrap">
       <table>
-        <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Created a design</th><th></th></tr></thead>
-        <tbody id="tbody"><tr><td colspan="5" class="loading">Loading…</td></tr></tbody>
+        <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Created a design</th><th>Email status</th><th></th></tr></thead>
+        <tbody id="tbody"><tr><td colspan="6" class="loading">Loading…</td></tr></tbody>
       </table>
     </div>
     <div class="more" id="more"><button class="btn gold" id="moreBtn">Load more</button></div>

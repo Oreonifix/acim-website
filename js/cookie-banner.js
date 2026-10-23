@@ -15,7 +15,7 @@
   css.textContent =
     ".ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:100;max-width:720px;margin:0 auto;" +
     "background:#17161a;color:#f3eee3;border:1px solid rgba(201,168,92,.55);border-radius:14px;" +
-    "padding:18px 20px;box-shadow:0 12px 40px rgba(0,0,0,.45);font:400 .95rem/1.55 'Hanken Grotesk',system-ui,sans-serif}" +
+    "padding:18px 20px;box-shadow:0 12px 40px rgba(0,0,0,.45);font:400 .95rem/1.55 'Inter',system-ui,sans-serif}" +
     ".ck[hidden]{display:none}" +
     ".ck p{margin:0 0 14px;color:#e6dfd0}" +
     ".ck-row{display:flex;gap:10px;flex-wrap:wrap}" +
