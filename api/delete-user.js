@@ -1,11 +1,21 @@
 // Vercel serverless function: an admin deletes an APP USER.
 // Needs the FIREBASE_SERVICE_ACCOUNT environment variable in Vercel (the whole key JSON).
-const { initializeApp, cert, getApps } = require("firebase-admin/app");
-const { getAuth } = require("firebase-admin/auth");
-const { getFirestore, FieldValue } = require("firebase-admin/firestore");
-
-if (!getApps().length) {
-  initializeApp({ credential: cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)) });
+// Firebase is started inside init() so that a setup problem (missing variable, bad key, package not installed)
+// is logged and answered with a clear JSON error, instead of crashing the whole function with a blank HTTP 500.
+function init() {
+  const { initializeApp, cert, getApps } = require("firebase-admin/app");
+  const { getAuth } = require("firebase-admin/auth");
+  const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+  if (!getApps().length) {
+    let raw = process.env.FIREBASE_SERVICE_ACCOUNT;
+    if (!raw) throw new Error("FIREBASE_SERVICE_ACCOUNT is not set");
+    raw = raw.trim();
+    if (!raw.startsWith("{")) raw = Buffer.from(raw, "base64").toString("utf8");   // also accept a Base64 copy
+    const key = JSON.parse(raw);
+    if (typeof key.private_key === "string") key.private_key = key.private_key.replace(/\\n/g, "\n");
+    initializeApp({ credential: cert(key) });
+  }
+  return { getAuth, getFirestore, FieldValue };
 }
 
 const ADMIN_ROLES = ["admin", "superAdmin"];
@@ -25,6 +35,13 @@ function tooMany(uid) {
 module.exports = async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return res.status(405).json({ error: "Use POST." });
+
+  let getAuth, getFirestore, FieldValue;
+  try { ({ getAuth, getFirestore, FieldValue } = init()); }
+  catch (e) {
+    console.error("setup failed:", e.message);
+    return res.status(500).json({ error: "The server is not set up correctly. Check the Vercel logs." });
+  }
 
   try {
     const m = /^Bearer (.+)$/.exec(req.headers.authorization || "");
