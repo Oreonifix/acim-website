@@ -1,12 +1,11 @@
-// Shared admin helpers: role check, sign-out, formatting.
 import { auth, db, isConfigured } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 export { db };
 
-let stopWatch = null;    // listener that signs this device out if the account logs in elsewhere
-let loggingOut = false; // stops the "not signed in" redirect from overriding the logout redirect
+let stopWatch = null;    
+let loggingOut = false; 
 
 export const esc = (v) =>
   String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -23,12 +22,10 @@ export function fmtDate(v) {
 
 export function showError(el, err) {
   const msg = String(err && err.message ? err.message : err);
-  // Firestore index errors include a link; make it clickable.
   const html = esc(msg).replace(/(https:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
   el.innerHTML = `<div class="notice">${html}</div>`;
 }
 
-// Runs onReady(user) only for signed-in accounts whose token has role admin or superAdmin.
 export function requireAdmin(onReady) {
   if (!isConfigured || !auth) {
     document.body.innerHTML =
@@ -67,7 +64,6 @@ export function requireAdmin(onReady) {
   });
 }
 
-// Asks "Log out?" in a small dialog. Resolves true only if the person confirms.
 function confirmLogout() {
   return new Promise((resolve) => {
     const dlg = document.createElement("dialog");

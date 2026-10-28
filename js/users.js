@@ -89,6 +89,15 @@ async function loadMore() {
   btn.disabled = false;
 }
 
+import { resetPassword, resetErrorText, deleteUser, confirmDelete } from "./user-actions.js";
+
+function flash(text, ok) {
+  const box = $("err");
+  box.textContent = text;
+  box.className = "notice" + (ok ? " ok" : "");
+  setTimeout(() => { box.textContent = ""; box.className = ""; }, 8000);
+}
+
 async function openUser(uid) {
   const row = rows.find((r) => r.id === uid);
   $("dTitle").textContent = (row && (userName(row.data) || userEmail(row.data))) || uid;
@@ -104,6 +113,11 @@ async function openUser(uid) {
     $("dBody").innerHTML = `
       <p class="m">${row ? verifiedCell(row.data) : ""} ${esc(row ? userEmail(row.data) : "")}</p>
       <p class="m">User ID: ${esc(uid)}</p>
+      <div class="actions-row">
+        <button class="btn" id="uReset" type="button">Send password reset email</button>
+        <button class="btn danger" id="uDelete" type="button">Delete user…</button>
+      </div>
+      <div id="uMsg" role="status"></div>
       <h3>Designs (${dList.length})</h3>
       ${dList.length ? `<ul class="list">${dList.map((x) => `<li>
           <div class="t">${esc(x.DesignName || "Untitled design")}</div>
@@ -117,7 +131,38 @@ async function openUser(uid) {
           <div class="clamp">${esc(x.Comment || "")}</div>
           <div class="m">${esc(fmtDate(x.CreatedAt))}</div></li>`).join("")}</ul>`
         : '<div class="empty">No feedback.</div>'}`;
+    wireActions(uid, row);
   } catch (e) { showError($("dBody"), e); }
+}
+
+function wireActions(uid, row) {
+  const msg = $("uMsg");
+  const say = (text, ok) => { msg.textContent = text; msg.className = "notice" + (ok ? " ok" : ""); };
+  const name = row ? (userName(row.data) || userEmail(row.data) || uid) : uid;
+  const email = row ? userEmail(row.data) : "";
+
+  $("uReset").addEventListener("click", async (e) => {
+    if (!email) return say("This user has no email address on file.");
+    if (!window.confirm("Send a password reset email to " + email + "?\n\nThis does not change the password. The user chooses a new one from the email.")) return;
+    e.target.disabled = true;
+    try { await resetPassword(email); say("If " + email + " has an account, a reset email is on its way.", true); }
+    catch (err) { say(resetErrorText(err)); }
+    e.target.disabled = false;
+  });
+
+  $("uDelete").addEventListener("click", async (e) => {
+    const choice = await confirmDelete({ name, email, uid });
+    if (!choice) return;
+    e.target.disabled = true;
+    try {
+      const out = await deleteUser(uid, choice.deleteData);
+      const i = rows.findIndex((r) => r.id === uid);
+      if (i >= 0) rows.splice(i, 1);
+      $("dialog").close();
+      render();
+      flash(name + " was deleted" + (out.dataDeleted ? ", along with their profile, designs and feedback." : ". Their data was kept in Firestore."), true);
+    } catch (err) { say(err.message); e.target.disabled = false; }
+  });
 }
 
 requireAdmin(() => {

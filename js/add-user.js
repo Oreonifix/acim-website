@@ -1,4 +1,3 @@
-// js/add-user.js  -  "Add user" for the ACIM admin dashboard
 import { auth, db } from "./firebase-config.js";
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -6,10 +5,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ---- settings you may want to change -------------------------------------
+
 const SEND_VERIFICATION_EMAIL = true;   // email the new user a verification link
-const FIRESTORE_EMAIL_VERIFIED = false; // value saved in Users/{uid}.EmailVerified
-// ---------------------------------------------------------------------------
+const FIRESTORE_EMAIL_VERIFIED = false; 
+
 
 // A second app instance has its own login session, so creating the new
 // account there does NOT sign the admin out of the main app.
@@ -34,7 +33,7 @@ export async function addUser({ first, middle, last, suffix, email, password }) 
     await updateProfile(cred.user, { displayName: full }).catch(() => {});
     if (SEND_VERIFICATION_EMAIL) await sendEmailVerification(cred.user).catch(() => {});
 
-    // >>> Add any other fields your mobile app expects on a user document <<<
+  
     const data = {
       CreatedAt: serverTimestamp(),
       Email: email,
@@ -46,13 +45,13 @@ export async function addUser({ first, middle, last, suffix, email, password }) 
       Suffix: suffix
     };
     await setDoc(doc(db, "Users", cred.user.uid), data);
-    return { id: cred.user.uid, data: { ...data, CreatedAt: new Date() } }; // local copy for the table
+    return { id: cred.user.uid, data: { ...data, CreatedAt: new Date() } }; 
   } finally {
-    await signOut(sAuth).catch(() => {});   // always drop the temporary session
+    await signOut(sAuth).catch(() => {});   
   }
 }
 
-// ---- dialog UI (matches your dashboard.css look) ---------------------------
+
 function injectStyle() {
   if (document.getElementById("addUserStyle")) return;
   const s = document.createElement("style");
@@ -75,7 +74,7 @@ function injectStyle() {
   document.head.appendChild(s);
 }
 
-// Resolves { id, data } when a user was added, otherwise null.
+
 export function openAddUserDialog() {
   injectStyle();
   return new Promise((resolve) => {
